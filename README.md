@@ -1,6 +1,6 @@
 # 🔒 ncrypt
 
-**ncrypt** is a high-performance, secure, and lightweight Node.js library designed for binary file encryption, compression, and serialization. By combining the speed of **MessagePack** serialization, flexible compression algorithms, and authenticated **AES-256-GCM** encryption, `ncrypt` provides a robust, tamper-proof solution for handling custom `.ncrypt` file structures.
+**ncrypt** is a high-performance, secure and open-source Node.js library designed for binary file encryption, compression, and serialization. By combining the speed of **MessagePack** serialization, flexible compression algorithms, and authenticated **AES-256-GCM** encryption, `ncrypt` provides a robust, tamper-proof solution for handling custom `.ncrypt` file structures.
 
 ---
 
@@ -30,6 +30,7 @@ For handling with better performance, we'd used **NArchive** for archiving and d
 ```url
 https://github.com/Nima389/NArchive
 ```
+
 You can install the **NArchive** via **npm**:
 
 ```bash
@@ -41,52 +42,42 @@ npm install @nroot_project/narchive
 ## 🚀 Quick Start
 
 ```ts
-import { NCrypt } from "@nroot_project/ncrypt";
+import {runInteractivePack, runInteractiveUnpack} from "@nroot_project/ncrypt";
 
-async function main() {
-  const secretData = {
-    user: "alice",
-    role: "admin",
-    sensitiveInfo: [10, 20, 30],
-  };
+const data = `hello, world!`;
 
-  const password = "SuperSecretPassword123!";
+const pack = await runInteractivePack(data, {
+  compression: "brotli",
+  algo: "aes-128-gcm",
+  level: 6,
+  password: "YOUR_STRONG_PASSWORD",
+});
 
-  // Encrypt & Compress
-  const encryptedBuffer = await NCrypt.encrypt(secretData, password, {
-    algorithm: "aes-256-gcm",
-    compressionLevel: 6,
-  });
+console.log("encypted data:", pack);
 
-  // Decrypt
-  const decryptedData = await NCrypt.decrypt(encryptedBuffer, password);
+const unpack = await runInteractiveUnpack(pack, {
+  password: "YOUR_STRONG_PASSWORD",
+});
 
-  console.log(decryptedData);
-}
-
-main();
+console.log("decrypted data:", unpack);
 ```
 
 **Output**
 
-```ts
-{
-  user: "alice",
-  role: "admin",
-  sensitiveInfo: [10, 20, 30]
-}
+```text
+hello, world!
 ```
 
 ---
 
 ## ⚙️ Supported Algorithms
 
-| Type | Options |
-|------|---------|
-| **Encryption** | `aes-256-gcm` (Default), `aes-128-gcm`, `chacha20-poly1305` |
-| **Key Derivation (KDF)** | `scrypt` (Native Node.js implementation) |
-| **Serialization** | `MessagePack` |
-| **Compression Level** | `1` (Fastest) → `15` (Best Compression) |
+| Type                     | Options                                                     |
+| ------------------------ | ----------------------------------------------------------- |
+| **Encryption**           | `aes-256-gcm` (Default), `aes-128-gcm`, `chacha20-poly1305` |
+| **Key Derivation (KDF)** | `scrypt` (Native Node.js implementation)                    |
+| **Serialization**        | `MessagePack`                                               |
+| **Compression Level**    | `1` (Fastest) → `15` (Best Compression)                     |
 
 ---
 
