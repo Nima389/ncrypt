@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import zlib from "node:zlib";
 import {promisify} from "node:util";
 import {encode, decode} from "@msgpack/msgpack";
-import {NarPacker, NarUnpacker} from "@nroot_project/narchive/dist";
+import {NarPacker, NarUnpacker} from "@nroot_project/narchive";
 
 export type EncryptionAlgorithm =
   | "aes-256-gcm"
