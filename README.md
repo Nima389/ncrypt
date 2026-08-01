@@ -44,22 +44,18 @@ npm install @nroot_project/narchive
 ```ts
 import {runInteractivePack, runInteractiveUnpack} from "@nroot_project/ncrypt";
 
-const data = `hello, world!`;
+const FilePath = `public`; // IMPORTANT: This Version Only Accept DIR
 
-const pack = await runInteractivePack(data, {
+await runInteractivePack(FilePath, {
   compression: "brotli",
   algo: "aes-128-gcm",
   level: 6,
   password: "YOUR_STRONG_PASSWORD",
 });
 
-console.log("encypted data:", pack);
-
-const unpack = await runInteractiveUnpack(pack, {
+await runInteractiveUnpack("public.ncrypt", {
   password: "YOUR_STRONG_PASSWORD",
 });
-
-console.log("decrypted data:", unpack);
 ```
 
 **Output**
